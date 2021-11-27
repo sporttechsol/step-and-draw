@@ -3,6 +3,7 @@
 
     <dimen name="rpb_default_text_padding">8dp</dimen>
     <dimen name="rpb_default_text_size">16sp</dimen>
+    <dimen name="top_margin_progress">60dp</dimen>
 
     <!--Default corner radius is 0. From there the user can add rounding to any desired corners-->
     <dimen name="rpb_default_corner_radius">0dp</dimen>

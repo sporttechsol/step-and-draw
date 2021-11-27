@@ -65,6 +65,10 @@ class MainActivityViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    val showIntroLiveData: MutableLiveData<Unit?> by lazy {
+        MutableLiveData()
+    }
+
     val initSceneLiveData: MutableLiveData<DrawingData> by lazy {
         MutableLiveData()
     }
@@ -101,6 +105,10 @@ class MainActivityViewModel : BaseViewModel() {
         SingleLiveEvent()
     }
 
+    val showAfterIntroDialogLiveData: SingleLiveEvent<Unit> by lazy {
+        SingleLiveEvent()
+    }
+
     val changeElementsVisibilityLiveData: SingleLiveEvent<Unit> by lazy {
         SingleLiveEvent()
     }
@@ -109,6 +117,9 @@ class MainActivityViewModel : BaseViewModel() {
         if (!isStepCounterAvailableUseCase.isAvailable()) {
             AnalyticsSender.getInstance().noStepDetector()
             noDetectorDialogLiveData.value = Unit
+        } else if (!initialFlagsUseCase.isIntroShown()) {
+            showIntroLiveData.value = Unit
+            progressLiveData.value = false
         } else {
             checkActivityRecognitionLiveData.value = Unit
         }
@@ -127,6 +138,14 @@ class MainActivityViewModel : BaseViewModel() {
         showPermissionBlockedDialogLiveData.value = Unit
     }
 
+    fun introFinished() {
+        AnalyticsSender.getInstance().introFinished()
+        initialFlagsUseCase.setIntroShown(true)
+        showIntroLiveData.value = null
+
+        checkActivityRecognitionLiveData.value = Unit
+    }
+
     fun permissionGranted() {
         showPermissionBlockedDialogLiveData.value = null
         getDrawingData()
@@ -141,6 +160,11 @@ class MainActivityViewModel : BaseViewModel() {
             }
             .subscribe { drawingData: DrawingData ->
                 initSceneLiveData.value = drawingData
+                if (!initialFlagsUseCase.isAfterIntroAction()) {
+                    initialFlagsUseCase.setAfterIntroAction(true)
+                    onStartClick()
+                    showAfterIntroDialogLiveData.value = Unit
+                }
                 checkReward()
             })
     }
@@ -241,10 +265,16 @@ class MainActivityViewModel : BaseViewModel() {
     }
 
     fun onStartClick() {
+        if (!initialFlagsUseCase.isIntroShown()) {
+            return
+        }
         serviceEnableLiveData.value = Unit
     }
 
     fun onStopClick() {
+        if (!initialFlagsUseCase.isIntroShown()) {
+            return
+        }
         serviceEnableLiveData.value = null
     }
 

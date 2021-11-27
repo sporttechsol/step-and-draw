@@ -2,6 +2,7 @@
 <resources>
     <integer name="anim_fab_step_counter_control_duration">120</integer>
     <integer name="rpb_default_animation_duration">@android:integer/config_shortAnimTime</integer>
+    <integer name="dialog_info_show_hide_duration">300</integer>
     <integer name="click_intro_anim_duration">300</integer>
 
     <!-- reward animation -->

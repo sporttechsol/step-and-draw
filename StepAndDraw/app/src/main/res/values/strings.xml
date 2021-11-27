@@ -17,6 +17,17 @@
     <string name="notification_channel_pedometer_id" translatable="false">Step Counter channel</string>
     <string name="notification_channel_pedometer_name" translatable="false">Step Counter</string>
 
+    <!-- intro -->
+    <string name="title_intro_1">Turn on \nthe pedometer</string>
+    <string name="title_intro_2">Number of \nwalked steps</string>
+    <string name="title_intro_3">Magic place. Steps are \nconverted to drawing</string>
+    <string name="lets_go">Let\'s go!</string>
+    <string name="next">Next</string>
+
+    <!-- after intro info -->
+    <string name="start_walking_title">Start walking!</string>
+    <string name="start_walking_descr">Start walking and return to the app to see the result of your activity.</string>
+
     <!-- reward -->
     <string name="steps">Steps</string>
     <string name="take_it">Take it!</string>
@@ -24,6 +35,18 @@
 
     <string name="max_amount_steps_reached">Max amount of steps has been reached </string>
 
-    <string name="click_to_show">Click on the picture to view it</string>
+    <!-- dialog_draw_finished-->
+    <string name="congratulations">Congratulations!</string>
+    <string name="dialog_draw_finished_descr">You have fully opened the image. Keep walking and the picture will come to life.</string>
+    <string name="b_continue">Continue!</string>
+
+    <!-- dialog_final-->
+    <string name="dialog_final_descr">The demo version of the application is over. Thanks for your participation!</string>
+    <string name="play_again">Play again</string>
+    <string name="next_level">Next level</string>
     <string name="close">Cancel</string>
+    <string name="title_next_level">Sorry!</string>
+    <string name="descr_next_level">We are sorry. New levels are not ready yet. You can play the previous level again.</string>
+
+    <string name="click_to_show">Click on the picture to view it</string>
 </resources>

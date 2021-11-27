@@ -11,6 +11,18 @@
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
     </style>
 
+    <style name="FullScreenAnimDialog" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsTranslucent">false</item> <!-- removed -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="ContentLoadingProgress">
         <item name="colorAccent">@color/orange_ff9</item>
     </style>

@@ -1,6 +1,8 @@
 package by.step.draw.ui.activities.main
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -22,8 +24,11 @@ import by.step.draw.data.models.step_counter_state.BaseStepCounterServiceState
 import by.step.draw.data.models.step_counter_state.StepCounterServiceRunningState
 import by.step.draw.data.models.step_counter_state.StepCounterServiceStoppedState
 import by.step.draw.domain.models.drawing.DrawingData
+import by.step.draw.ui.dialogs.InfoDialog
+import by.step.draw.ui.dialogs.InfoDialogButtonListener
 import by.step.draw.ui.services.StepService
 import by.step.draw.ui.views.IOnRewardListener
+import by.step.draw.ui.views.IntroListener
 import by.step.draw.ui.views.StepCounterControllerListener
 import by.step.draw.ui.views.draw_view.IOnDrawListener
 import by.step.draw.utils.AnalyticsSender
@@ -84,6 +89,15 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
 
             override fun onPlayClicked() {
                 viewModel.onStartClick()
+                if (introView.visibility == VISIBLE) {
+                    introView.onPlayServiceClicked()
+                }
+            }
+        })
+
+        introView.setListener(object : IntroListener {
+            override fun onIntroClosed() {
+                viewModel.introFinished()
             }
         })
 
@@ -110,6 +124,34 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             } ?: run {
                 StepService.stop(App.instance)
             }
+        })
+
+        viewModel.showIntroLiveData.observe(this, {
+            if (it != null) {
+                introView.visibility = VISIBLE
+            } else {
+                introView.animate()
+                    .scaleX(0f)
+                    .scaleY(0f)
+                    .setDuration(400)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+                            introView.visibility = GONE
+                        }
+                    })
+                    .start()
+            }
+        })
+
+        viewModel.showAfterIntroDialogLiveData.observe(this, {
+            showLimitStepInfoDialog(R.string.start_walking_title, R.string.start_walking_descr,
+                bCancelText = R.string.b_continue,
+                resIcon = R.drawable.ic_walking,
+                cancelListener = object : InfoDialogButtonListener {
+                    override fun onClicked() {
+                    }
+                })
         })
 
         viewModel.bServiceControllerEnabledLiveData.observe(this, {
@@ -214,6 +256,8 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
         })
 
         //  stepsProgressView.setOnLongClickListener(this)
+        //  showDrawStepFinishedDialog()
+        //  showDialogFinal()
         vBackgroundClickTutorial.setOnClickListener(this)
         drawView.setOnClickListener(this)
     }
@@ -289,6 +333,59 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             }
             R.id.drawView -> viewModel.onDrawViewClicked()
         }
+    }
+
+    private fun showDrawStepFinishedDialog() {
+        showLimitStepInfoDialog(
+            title = R.string.congratulations,
+            descr = R.string.dialog_draw_finished_descr,
+            bCancelText = R.string.b_continue,
+            resIcon = R.drawable.ic_fire_work,
+            cancelListener = object : InfoDialogButtonListener {
+                override fun onClicked() {
+                }
+            })
+    }
+
+    private fun showDialogFinal() {
+        showLimitStepInfoDialog(
+            R.string.congratulations,
+            R.string.dialog_final_descr,
+            R.string.close,
+            null,
+            R.string.next_level,
+            R.drawable.ic_fire_work,
+            object : InfoDialogButtonListener {
+                override fun onClicked() {
+                }
+            },
+            null,
+            null
+        )
+    }
+
+    private fun showLimitStepInfoDialog(
+        title: Int, descr: Int, bCancelText: Int,
+        bOption1Text: Int? = null, bOption2Text: Int? = null,
+        resIcon: Int,
+        cancelListener: InfoDialogButtonListener,
+        bOption1Listener: InfoDialogButtonListener? = null,
+        bOption2Listener: InfoDialogButtonListener? = null
+    ) {
+        supportFragmentManager.findFragmentByTag(InfoDialog::class.java.simpleName)
+            ?: run {
+                val dialog = InfoDialog.newInstance(
+                    title, descr, bCancelText, resIcon, bOption1Text, bOption2Text
+                )
+                dialog.setCancelListener(cancelListener)
+                bOption1Listener?.let { dialog.setOption1Listener(it) }
+                bOption2Listener?.let { dialog.setOption2Listener(it) }
+
+                dialog.showNow(
+                    supportFragmentManager,
+                    InfoDialog::class.java.simpleName
+                )
+            }
     }
 
     private fun showAlertDialog(

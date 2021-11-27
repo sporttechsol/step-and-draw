@@ -48,6 +48,14 @@ class DataManagerLocal(private val context: Context) {
 
     fun getLastShownSteps() = preferencesHelper.getLastShownSteps()
 
+    fun setIntroShown(isShown: Boolean) = preferencesHelper.setIntroShown(isShown)
+
+    fun isIntroShown() = preferencesHelper.isIntroShown()
+
+    fun setAfterIntroAction(isShown:Boolean) = preferencesHelper.setAfterIntroAction(isShown)
+
+    fun isAfterIntroAction() = preferencesHelper.isAfterIntroAction()
+
     fun setHideElementsIntroShown(isShown: Boolean) =
         preferencesHelper.setHideElementsIntroShown(isShown)
 

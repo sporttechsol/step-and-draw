@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/transition_show"
+        motion:autoTransition="animateToEnd"
+        motion:constraintSetEnd="@+id/step_2"
+        motion:constraintSetStart="@+id/step_1"
+        motion:duration="@integer/dialog_info_show_hide_duration" />
+
+    <Transition
+        android:id="@+id/transition_hide"
+        motion:constraintSetEnd="@+id/step_3"
+        motion:constraintSetStart="@+id/step_2"
+        motion:duration="@integer/dialog_info_show_hide_duration" />
+
+    <ConstraintSet android:id="@+id/step_1">
+        <Constraint
+            android:id="@+id/vBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent">
+
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@android:color/transparent" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/cvContent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0"
+            android:scaleY="0"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/step_2">
+
+        <Constraint
+            android:id="@+id/vBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent">
+
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/green_e64" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/cvContent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:scaleX="1"
+            android:scaleY="1"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/step_3">
+        <Constraint
+            android:id="@+id/vBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent">
+
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@android:color/transparent" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/cvContent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0"
+            android:scaleY="0"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+    </ConstraintSet>
+</MotionScene>

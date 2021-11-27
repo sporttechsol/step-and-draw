@@ -74,6 +74,16 @@
             motion:visibilityMode="ignore" />
 
         <Constraint
+            android:id="@id/introView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:visibilityMode="ignore" />
+
+        <Constraint
             android:id="@+id/rewardView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -133,6 +143,16 @@
             motion:visibilityMode="ignore" />
 
         <Constraint
+            android:id="@id/introView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:visibilityMode="ignore" />
+
+        <Constraint
             android:id="@+id/rewardView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -161,6 +181,16 @@
 
         <Constraint
             android:id="@id/drawView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/introView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             motion:layout_constraintBottom_toBottomOf="parent"
@@ -251,6 +281,16 @@
 
         <Constraint
             android:id="@id/drawView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/introView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             motion:layout_constraintBottom_toBottomOf="parent"

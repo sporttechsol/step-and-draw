@@ -12,13 +12,37 @@
     <string name="ok">OK</string>
     <string name="cancel">Отменить</string>
 
+    <!-- intro -->
+    <string name="title_intro_1">Включай шагомер</string>
+    <string name="title_intro_2">Количество \nпройденных шагов</string>
+    <string name="title_intro_3">Территория волшебства. \nШаги преобразуются в рисунок</string>
+    <string name="lets_go">Погнали!</string>
+    <string name="next">Далее</string>
+
+    <!-- after intro info -->
+    <string name="start_walking_title">Начинай ходьбу!</string>
+    <string name="start_walking_descr">Начинай ходьбу и возвращайся в приложение, чтобы увидеть результат своей активности.</string>
+
     <!-- reward -->
     <string name="steps">Шагов</string>
     <string name="take_it">Забрать!</string>
 
     <string name="max_amount_steps_reached">Достигнуто максимальное количество шагов</string>
 
-    <string name="click_to_show">Нажмите на изображение, чтобы посмотреть его</string>
+    <!-- dialog_draw_finished-->
+    <string name="congratulations">Поздравляем!</string>
+    <string name="dialog_draw_finished_descr">Вы полностью открыли изображение. Продолжай ходьбу и картина оживет.</string>
+    <string name="b_continue">Продолжить!</string>
+
+    <!-- dialog_final-->
+    <string name="dialog_final_descr">Демо-версия приложения окончена. Спасибо за ваше участие!</string>
+    <string name="play_again">Играть еще раз</string>
+    <string name="next_level">Следующий уровень</string>
     <string name="close">Закрыть</string>
+    <string name="title_next_level">Извините!</string>
+    <string name="descr_next_level">Сожалеем. Новые уровни еще не готовы. Вы можете переиграть уровень еще раз.</string>
+
+
+    <string name="click_to_show">Нажмите на изображение, чтобы посмотреть его</string>
 
 </resources>

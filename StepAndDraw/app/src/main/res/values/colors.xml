@@ -10,6 +10,8 @@
     <color name="grey_b6b">#B6BDCC</color>
     <color name="grey_ddd">#DDDDDD</color>
     <color name="grey_bbb">#BBBBBB</color>
+    <color name="grey_707">#707070</color>
+    <color name="grey_a5a">#a5a5a5</color>
 
     <!-- green -->
     <color name="green_8bC">#8BC34A</color>
@@ -33,5 +35,6 @@
 
     <!-- orange -->
     <color name="orange_ff9">#FF9B42</color>
+    <color name="orange_F57">#F57C00</color>
 
 </resources>

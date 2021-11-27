@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_99"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/ivArrowDown"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/top_margin_progress"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        android:rotation="180"
+        android:src="@drawable/ic_arrow_intro_1"
+        app:layout_constraintBottom_toTopOf="@id/bMagic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivArrow1"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="@dimen/top_margin_progress"
+        android:adjustViewBounds="true"
+        android:alpha="0"
+        android:rotation="-30"
+        android:src="@drawable/ic_arrow_intro_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:text="@string/title_intro_1"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@id/ivArrowDown"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivArrow1"
+        tools:text="fslkdfjaslkdfj falskdfj lskdjf " />
+
+    <ImageView
+        android:id="@+id/ivArrow2"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/top_margin_progress"
+        android:layout_marginEnd="88dp"
+        android:adjustViewBounds="true"
+        android:alpha="0"
+        android:animateLayoutChanges="true"
+        android:rotation="-30"
+        android:src="@drawable/ic_arrow_intro_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        android:animateLayoutChanges="true"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/title_intro_2"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivArrowDown"
+        app:layout_constraintTop_toBottomOf="@id/ivArrow2" />
+
+    <com.sanojpunchihewa.glowbutton.GlowButton
+        android:id="@+id/bMagic"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:alpha="0"
+        android:enabled="false"
+        app:buttonColor="@android:color/white"
+        app:cornerRadius="200dp"
+        app:glowColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pressedGlowSize="100dp"
+        app:unpressedGlowSize="10dp" />
+
+    <ImageView
+        android:id="@+id/ivSteps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="18dp"
+        android:alpha="0"
+        android:src="@drawable/anim_steps"
+        app:layout_constraintBottom_toBottomOf="@id/bMagic"
+        app:layout_constraintStart_toStartOf="@id/bMagic"
+        app:layout_constraintTop_toTopOf="@id/bMagic" />
+
+    <ImageView
+        android:id="@+id/ivDrawing"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="24dp"
+        android:alpha="0"
+        android:src="@drawable/ic_drawing_step_1"
+        app:layout_constraintBottom_toBottomOf="@id/bMagic"
+        app:layout_constraintEnd_toEndOf="@id/bMagic"
+        app:layout_constraintTop_toTopOf="@id/bMagic" />
+
+    <FrameLayout
+        android:id="@+id/flArrow"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@id/bMagic"
+        app:layout_constraintEnd_toStartOf="@id/ivDrawing"
+        app:layout_constraintStart_toEndOf="@id/ivSteps"
+        app:layout_constraintTop_toTopOf="@id/bMagic">
+
+        <ImageView
+            android:id="@+id/ivArrowAnim"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_arrow_intro" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivArrow3"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:adjustViewBounds="true"
+        android:alpha="0"
+        android:rotation="20"
+        android:src="@drawable/ic_arrow_intro_3"
+        app:layout_constraintEnd_toEndOf="@id/bMagic"
+        app:layout_constraintStart_toStartOf="@id/bMagic"
+        app:layout_constraintTop_toBottomOf="@id/bMagic" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal|top"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/title_intro_3"
+        android:textColor="@android:color/white"
+        android:textStyle="italic"
+        app:autoSizeMaxTextSize="18dp"
+        app:autoSizeMinTextSize="10dp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@id/bNext"
+        app:layout_constraintEnd_toStartOf="@id/ivArrow3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bMagic" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bNext"
+        style="@style/BaseMaterialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:stateListAnimator="@null"
+        android:text="@string/next"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/white"
+        app:strokeWidth="2dp" />
+
+</merge>

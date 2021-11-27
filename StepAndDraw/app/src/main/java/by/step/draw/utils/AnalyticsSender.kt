@@ -11,6 +11,10 @@ class AnalyticsSender(private val userId: String) {
 
     private val firebaseAnalytics: FirebaseAnalytics
 
+    fun introFinished() {
+        firebaseAnalytics.logEvent(EVENT_INTRO_FINISHED, null)
+    }
+
     fun stepServiceStarted() {
         firebaseAnalytics.logEvent(EVENT_SERVICE_STARTED, null)
     }
@@ -105,6 +109,7 @@ class AnalyticsSender(private val userId: String) {
         fun getInstance() = instance!!
 
         // events
+        private const val EVENT_INTRO_FINISHED = "intro_finished"
         private const val EVENT_SERVICE_STARTED = "step_service_started"
         private const val EVENT_SERVICE_RESTARTED = "step_service_restarted"
         private const val EVENT_SERVICE_STOPPED = "step_service_stopped"
