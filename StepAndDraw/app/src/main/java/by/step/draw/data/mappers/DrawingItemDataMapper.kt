@@ -2,6 +2,7 @@ package by.step.draw.data.mappers
 
 import by.step.draw.domain.models.drawing.item.DrawingItemData
 import by.step.draw.domain.models.drawing.item.PaintItemData
+import by.step.draw.domain.models.drawing.item.steps.DrawingStepsAnimationData
 import by.step.draw.domain.models.drawing.item.steps.DrawingStepsData
 
 class DrawingItemDataMapper {
@@ -12,7 +13,8 @@ class DrawingItemDataMapper {
         startDrawPoint: Pair<Float, Float>,
         drawingRadius: Float,
         paintData: PaintItemData,
-        drawingStepsData: DrawingStepsData
+        drawingStepsData: DrawingStepsData,
+        drawingStepsAnimationData: DrawingStepsAnimationData?
     ) = DrawingItemData(
         width,
         height,
@@ -20,6 +22,7 @@ class DrawingItemDataMapper {
         startDrawPoint,
         drawingRadius,
         paintData,
-        drawingStepsData
+        drawingStepsData,
+        drawingStepsAnimationData
     )
 }

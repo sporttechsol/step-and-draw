@@ -1,16 +1,20 @@
 package by.step.draw.ui.views.draw_view.image_item
 
 import android.animation.AnimatorInflater
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import by.step.draw.App
 import by.step.draw.R
 import by.step.draw.domain.models.drawing.item.DrawingItemData
+import by.step.draw.domain.models.drawing.item.steps.BoundaryPoints
 
 class DrawingItemView @JvmOverloads constructor(
     context: Context,
@@ -22,7 +26,12 @@ class DrawingItemView @JvmOverloads constructor(
     attrs,
     defStyleAttr
 ) {
+
+    var boundaryPoints: BoundaryPoints? = null
+
+    private var deltaAnimationSteps: Int = 0
     private var alphaBkgrAnimator: ValueAnimator
+    private var colorAnimator: ValueAnimator? = null
 
     private var pathItem: Path
 
@@ -45,6 +54,12 @@ class DrawingItemView @JvmOverloads constructor(
         this.deltaDrawingSteps =
             drawingItemData.drawingSteps.stepsTo - drawingItemData.drawingSteps.stepsFrom
 
+        this.deltaAnimationSteps = drawingItemData.drawingAnimatedSteps?.let {
+            it.stepsTo - it.stepsFrom
+        } ?: run {
+            0
+        }
+
         pathItem = drawingItemData.paintData.path
 
         paintItemFill = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -64,6 +79,14 @@ class DrawingItemView @JvmOverloads constructor(
             App.instance,
             R.animator.bkgr_item_view_animator
         ) as ValueAnimator
+
+        drawingItemData.drawingAnimatedSteps?.let {
+            colorAnimator = ObjectAnimator.ofObject(ArgbEvaluator(), it.colorFrom, it.colorTo)
+            colorAnimator?.duration = it.duration.toLong()
+            colorAnimator?.repeatMode = ValueAnimator.REVERSE
+            colorAnimator?.repeatCount = ValueAnimator.INFINITE
+            this.boundaryPoints = it.boundaryPoints
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -74,14 +97,16 @@ class DrawingItemView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         stopBackgroundFadeAnimation()
+        stopColorAnimation()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         stopBackgroundFadeAnimation()
+        stopColorAnimation()
     }
 
-    fun update(steps: Float) {
+    fun update(steps: Float): Pair<Float, BoundaryPoints>? {
         curDrawItemProgress = getCurDrawItemProgress(steps)
 
         if (steps >= drawingItemData.drawingSteps.stepsFrom &&
@@ -92,7 +117,19 @@ class DrawingItemView @JvmOverloads constructor(
             stopBackgroundFadeAnimation()
         }
 
+        if (isAnimationRequired(steps)) {
+            startColorAnimation()
+        } else {
+            stopColorAnimation()
+        }
+
         invalidate()
+
+        return getCurProgress(steps)?.let {
+            Pair(it, boundaryPoints!!)
+        } ?: run {
+            null
+        }
     }
 
     private fun drawItem(canvas: Canvas?) {
@@ -111,6 +148,8 @@ class DrawingItemView @JvmOverloads constructor(
         if (alphaBkgrAnimator.isRunning) {
             paintBackgroundFade.alpha = alphaBkgrAnimator.animatedValue as Int
             canvas?.drawPath(drawPath!!, paintBackgroundFade)
+        } else if (colorAnimator != null && colorAnimator!!.isRunning) {
+            paintItemFill.color = colorAnimator!!.animatedValue as Int
         } else {
             paintItemFill.color = drawingItemData.paintData.color
         }
@@ -142,6 +181,27 @@ class DrawingItemView @JvmOverloads constructor(
         x = (itemCords.first * parentWidth.toFloat() / widthSource.toFloat())
         y =
             itemCords.second * parentWidth.toFloat() / heightSource.toFloat() * ratio + centerVerticalShift
+
+        drawingItemData.drawingAnimatedSteps?.let {
+            boundaryPoints = BoundaryPoints(
+                PointF(
+                    (it.boundaryPoints.leftPoint.x * parentWidth.toFloat() / widthSource.toFloat()),
+                    it.boundaryPoints.leftPoint.y * parentWidth.toFloat() / heightSource.toFloat() * ratio + centerVerticalShift
+                ),
+                PointF(
+                    (it.boundaryPoints.topPoint.x * parentWidth.toFloat() / widthSource.toFloat()),
+                    it.boundaryPoints.topPoint.y * parentWidth.toFloat() / heightSource.toFloat() * ratio + centerVerticalShift
+                ),
+                PointF(
+                    (it.boundaryPoints.rightPoint.x * parentWidth.toFloat() / widthSource.toFloat()),
+                    it.boundaryPoints.rightPoint.y * parentWidth.toFloat() / heightSource.toFloat() * ratio + centerVerticalShift
+                ),
+                PointF(
+                    (it.boundaryPoints.bottomPoint.x * parentWidth.toFloat() / widthSource.toFloat()),
+                    it.boundaryPoints.bottomPoint.y * parentWidth.toFloat() / heightSource.toFloat() * ratio + centerVerticalShift
+                )
+            )
+        }
 
         startDrawingPoint =
             Pair(
@@ -175,6 +235,23 @@ class DrawingItemView @JvmOverloads constructor(
         }
     }
 
+    private fun getCurProgress(steps: Float): Float? {
+        return drawingItemData.drawingAnimatedSteps?.let {
+            if (steps >= it.stepsFrom && steps < it.stepsTo) {
+                ((steps - it.stepsFrom.toFloat()) / deltaAnimationSteps * 100f)
+            } else {
+                null
+            }
+        } ?: run {
+            null
+        }
+    }
+
+    private fun isAnimationRequired(steps: Float): Boolean {
+        return drawingItemData.drawingAnimatedSteps != null &&
+                steps >= drawingItemData.drawingAnimatedSteps.stepsTo
+    }
+
     private fun startBackgroundFadeAnimation() {
         if (!alphaBkgrAnimator.isRunning) {
             alphaBkgrAnimator.addUpdateListener { invalidate() }
@@ -185,5 +262,17 @@ class DrawingItemView @JvmOverloads constructor(
     private fun stopBackgroundFadeAnimation() {
         alphaBkgrAnimator.removeAllUpdateListeners()
         alphaBkgrAnimator.cancel()
+    }
+
+    private fun startColorAnimation() {
+        if (colorAnimator != null && !colorAnimator!!.isRunning) {
+            colorAnimator?.addUpdateListener { invalidate() }
+            colorAnimator?.start()
+        }
+    }
+
+    private fun stopColorAnimation() {
+        colorAnimator?.removeAllUpdateListeners()
+        colorAnimator?.cancel()
     }
 }

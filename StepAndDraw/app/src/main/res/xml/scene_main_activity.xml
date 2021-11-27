@@ -3,6 +3,13 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
+        android:id="@+id/transition_final_reward"
+        motion:autoTransition="none"
+        motion:constraintSetEnd="@+id/step_final_reward"
+        motion:constraintSetStart="@+id/step_init"
+        motion:duration="@integer/b_final_reward_anim_duration" />
+
+    <Transition
         android:id="@+id/transition_to_click_intro"
         motion:autoTransition="none"
         motion:constraintSetEnd="@+id/step_click_intro"
@@ -28,7 +35,7 @@
         motion:autoTransition="none"
         motion:constraintSetEnd="@+id/step_picture_showed"
         motion:constraintSetStart="@+id/step_final_reward"
-        motion:duration="@integer/click_intro_anim_duration" />
+        motion:duration="@integer/b_final_reward_anim_duration" />
 
     <ConstraintSet android:id="@+id/step_init">
         <Constraint
@@ -56,12 +63,20 @@
             android:id="@+id/cvProgressContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="4dp"
             motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/bEnd"
             motion:layout_constraintStart_toEndOf="@id/stepCounterController"
             motion:layout_constraintTop_toTopOf="@id/stepCounterController"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintStart_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
 
         <Constraint
             android:id="@id/drawView"
@@ -125,12 +140,21 @@
             android:id="@+id/cvProgressContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="4dp"
             motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/bEnd"
             motion:layout_constraintStart_toEndOf="@id/stepCounterController"
             motion:layout_constraintTop_toTopOf="@id/stepCounterController"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="4dp"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
 
         <Constraint
             android:id="@id/drawView"
@@ -178,6 +202,15 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="4dp"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
 
         <Constraint
             android:id="@id/drawView"
@@ -259,12 +292,23 @@
             android:id="@+id/cvProgressContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="4dp"
             motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/bEnd"
             motion:layout_constraintStart_toEndOf="@id/stepCounterController"
             motion:layout_constraintTop_toTopOf="@id/stepCounterController"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@+id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="4dp"
+            android:visibility="visible"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/step_picture_showed">
@@ -278,6 +322,15 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="4dp"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
 
         <Constraint
             android:id="@id/drawView"
@@ -359,11 +412,21 @@
             android:id="@+id/cvProgressContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="4dp"
             motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
-            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/bEnd"
             motion:layout_constraintStart_toEndOf="@id/stepCounterController"
             motion:layout_constraintTop_toTopOf="@id/stepCounterController"
             motion:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@+id/bFinalReward"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginEnd="4dp"
+            motion:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/stepCounterController" />
+
     </ConstraintSet>
 </MotionScene>

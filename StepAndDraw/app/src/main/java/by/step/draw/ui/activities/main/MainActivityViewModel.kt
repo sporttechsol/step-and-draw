@@ -3,6 +3,7 @@ package by.step.draw.ui.activities.main
 import androidx.lifecycle.MutableLiveData
 import by.step.draw.App
 import by.step.draw.data.models.step_counter_state.BaseStepCounterServiceState
+import by.step.draw.data.models.step_counter_state.StepCounterServiceStoppedState
 import by.step.draw.data.repositories.DrawingRepository
 import by.step.draw.data.repositories.InitialFlagsRepository
 import by.step.draw.data.repositories.StepCounterRepository
@@ -19,10 +20,6 @@ class MainActivityViewModel : BaseViewModel() {
 
     private var rewardState = REWARD_STATE.NOT_SHOWN
     private var stepsSubscriptionDisposable: Disposable? = null
-
-    private val initialFlagsUseCase: InitialFlagsUseCase by lazy {
-        InitialFlagsUseCase(InitialFlagsRepository((App.instance.getDataManagerLocal())))
-    }
 
     private val isStepCounterAvailableUseCase: IsStepCounterAvailableUseCase by lazy {
         IsStepCounterAvailableUseCase()
@@ -42,6 +39,10 @@ class MainActivityViewModel : BaseViewModel() {
 
     private val setLastShownStepsUseCase: SetLastShownStepsUseCase by lazy {
         SetLastShownStepsUseCase(StepCounterRepository(App.instance.getDataManagerLocal()))
+    }
+
+    private val initialFlagsUseCase: InitialFlagsUseCase by lazy {
+        InitialFlagsUseCase(InitialFlagsRepository((App.instance.getDataManagerLocal())))
     }
 
     private val getDrawingDataUseCase: GetDrawingDataUseCase by lazy {
@@ -85,6 +86,22 @@ class MainActivityViewModel : BaseViewModel() {
         SingleLiveEvent()
     }
 
+    val dialogDrawStepFinishedShowLiveData: MutableLiveData<Unit?> by lazy {
+        MutableLiveData()
+    }
+
+    val dialogFinalShowLiveData: MutableLiveData<Unit?> by lazy {
+        MutableLiveData()
+    }
+
+    val recreateScreenLiveData: SingleLiveEvent<Unit> by lazy {
+        SingleLiveEvent()
+    }
+
+    val bFinalRewardVisibilityLiveData: MutableLiveData<Boolean> by lazy {
+        MutableLiveData()
+    }
+
     val checkActivityRecognitionLiveData: SingleLiveEvent<Unit> by lazy {
         SingleLiveEvent()
     }
@@ -105,11 +122,15 @@ class MainActivityViewModel : BaseViewModel() {
         SingleLiveEvent()
     }
 
-    val showAfterIntroDialogLiveData: SingleLiveEvent<Unit> by lazy {
+    val changeElementsVisibilityLiveData: SingleLiveEvent<Unit> by lazy {
         SingleLiveEvent()
     }
 
-    val changeElementsVisibilityLiveData: SingleLiveEvent<Unit> by lazy {
+    val showNextLevelAlertDialogLiveData: SingleLiveEvent<Unit?> by lazy {
+        SingleLiveEvent()
+    }
+
+    val showAfterIntroDialogLiveData: SingleLiveEvent<Unit> by lazy {
         SingleLiveEvent()
     }
 
@@ -180,10 +201,8 @@ class MainActivityViewModel : BaseViewModel() {
                     initialProgressLiveData.value = steps.first
                     progressLiveData.value = false
 
-                    if (!showHideElementsIntroIfRequired(steps.first)) {
-
-                        val coercedSteps =
-                            steps.second.coerceAtMost(initSceneLiveData.value!!.maxDrawSteps)
+                    if (!showReachLimitDialogIfRequired(steps.first)) {
+                        val coercedSteps = coerceSteps(steps.first, steps.second)
                         showRewardLiveData.value = Pair(
                             rewardState,
                             coercedSteps - steps.first
@@ -201,16 +220,14 @@ class MainActivityViewModel : BaseViewModel() {
                 if (steps.second - steps.first == 0) {
                     initialProgressLiveData.value = steps.first
                     progressLiveData.value = false
-                    showHideElementsIntroIfRequired(steps.first)
+                    showReachLimitDialogIfRequired(steps.first)
                     return@subscribe
                 }
 
                 removeDisposable(stepsSubscriptionDisposable)
 
-                if (!showHideElementsIntroIfRequired(steps.first)) {
-
-                    val coercedSteps =
-                        steps.second.coerceAtMost(initSceneLiveData.value!!.maxDrawSteps)
+                if (!showReachLimitDialogIfRequired(steps.first)) {
+                    val coercedSteps = coerceSteps(steps.first, steps.second)
 
                     setLastShownStepsUseCase.setSteps(coercedSteps)
                     AnalyticsSender.getInstance().drawingStarted(Pair(steps.first, coercedSteps))
@@ -221,13 +238,89 @@ class MainActivityViewModel : BaseViewModel() {
         addDisposable(stepsSubscriptionDisposable)
     }
 
+    private fun showReachLimitDialogIfRequired(stepsFrom: Int): Boolean {
+        val drawingData = initSceneLiveData.value!!
+
+        return if (stepsFrom == drawingData.maxDrawSteps && !initialFlagsUseCase.isAnimationIntroDialogShown()) {
+            AnalyticsSender.getInstance().firstLimitReached()
+            dialogDrawStepFinishedShowLiveData.value = Unit
+            initialFlagsUseCase.setAnimationIntroDialogShown(true)
+            true
+        } else if (stepsFrom == drawingData.maxAnimationSteps) {
+            if (!initialFlagsUseCase.isFinalDialogShown()) {
+                AnalyticsSender.getInstance().secondLimitReached()
+                initialProgressLiveData.value = stepsFrom
+                dialogFinalShowLiveData.value = Unit
+                initialFlagsUseCase.setFinalDialogShown(true)
+                bFinalRewardVisibilityLiveData.value = true
+            } else {
+                if (bFinalRewardVisibilityLiveData.value == null) {
+                    bFinalRewardVisibilityLiveData.value =
+                        false // TODO costyl' party because can't get the state of MotionLayout and when stepsFrom == MaxAnimationSteps there is no transition animation (skip)
+                }
+            }
+            true
+        } else {
+            if (initialFlagsUseCase.isFinalDialogShown()) {
+                bFinalRewardVisibilityLiveData.value = true
+            }
+            false
+        }
+    }
+
+    private fun coerceSteps(stepsFrom: Int, stepsTo: Int): Int {
+        val drawMaxValue = initSceneLiveData.value!!.maxDrawSteps
+        val animationMaxValue = initSceneLiveData.value!!.maxAnimationSteps
+        return if (stepsFrom < drawMaxValue && stepsTo > drawMaxValue) {
+            drawMaxValue
+        } else if (stepsTo > animationMaxValue) {
+            animationMaxValue
+        } else {
+            stepsTo
+        }
+    }
+
+    fun dialogDrawStepFinishedClosed() {
+        dialogDrawStepFinishedShowLiveData.value = null
+        subscribeOnSteps()
+    }
+
+    fun dialogFinalClosed() {
+        AnalyticsSender.getInstance().secondLimitDialogClosed()
+        dialogFinalShowLiveData.value = null
+        if (!initialFlagsUseCase.isHideElementsIntroShown()) {
+            initialFlagsUseCase.setHideElementsIntroShown(true)
+            showClickIntroLiveData.value = Unit
+        }
+    }
+
     fun onDrawViewClicked() {
         initialProgressLiveData.value?.let {
-            if (it >= initSceneLiveData.value!!.maxDrawSteps) {
+            if (it >= initSceneLiveData.value!!.maxAnimationSteps) {
                 AnalyticsSender.getInstance().hideUIClicked()
                 changeElementsVisibilityLiveData.value = Unit
             }
         }
+    }
+
+    fun onNextLevelClicked() {
+        AnalyticsSender.getInstance().nextLevel()
+        dialogFinalShowLiveData.value = null
+        showNextLevelAlertDialogLiveData.value = Unit
+    }
+
+    fun onResetResultsClicked() {
+        AnalyticsSender.getInstance().playAgain()
+        addDisposable(resetCurrentStepsUseCase.reset().subscribe { it: Unit ->
+            initialFlagsUseCase.resetFlags()
+            serviceEnableLiveData.value = null
+            recreateScreenLiveData.value = Unit
+        })
+    }
+
+    fun onFinalRewardClicked() {
+        AnalyticsSender.getInstance().rewardButtonClicked()
+        dialogFinalShowLiveData.value = Unit
     }
 
     fun setRewardState(rewardState: REWARD_STATE) {
@@ -245,18 +338,6 @@ class MainActivityViewModel : BaseViewModel() {
         subscribeOnSteps()
     }
 
-    fun showHideElementsIntroIfRequired(stepsFrom: Int): Boolean {
-        val drawingData = initSceneLiveData.value!!
-        if (stepsFrom == drawingData.maxDrawSteps && !initialFlagsUseCase.isHideElementsIntroShown()) {
-            initialFlagsUseCase.setHideElementsIntroShown(true)
-            showClickIntroLiveData.value = Unit
-            return true
-        } else if (stepsFrom >= drawingData.maxDrawSteps) {
-            return true
-        }
-        return false
-    }
-
     private fun subscribeOnStepCounterServiceStatus() {
         addDisposable(stepCounterStatusUseCase.subscribe()
             .subscribe { state: BaseStepCounterServiceState ->
@@ -268,7 +349,16 @@ class MainActivityViewModel : BaseViewModel() {
         if (!initialFlagsUseCase.isIntroShown()) {
             return
         }
-        serviceEnableLiveData.value = Unit
+        addDisposable(stepsSourceUseCase.getStepsInfo()
+            .subscribe { steps: Pair<Int, Int> ->
+                val drawingData = initSceneLiveData.value!!
+                if (drawingData.maxAnimationSteps == steps.first) {
+                    dialogFinalShowLiveData.value = Unit
+                    stepServiceStateLiveData.value = StepCounterServiceStoppedState()
+                } else {
+                    serviceEnableLiveData.value = Unit
+                }
+            })
     }
 
     fun onStopClick() {

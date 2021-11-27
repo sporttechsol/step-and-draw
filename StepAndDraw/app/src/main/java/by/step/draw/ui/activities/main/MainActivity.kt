@@ -14,6 +14,7 @@ import android.provider.Settings
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,8 +25,8 @@ import by.step.draw.data.models.step_counter_state.BaseStepCounterServiceState
 import by.step.draw.data.models.step_counter_state.StepCounterServiceRunningState
 import by.step.draw.data.models.step_counter_state.StepCounterServiceStoppedState
 import by.step.draw.domain.models.drawing.DrawingData
-import by.step.draw.ui.dialogs.InfoDialog
 import by.step.draw.ui.dialogs.InfoDialogButtonListener
+import by.step.draw.ui.dialogs.InfoDialog
 import by.step.draw.ui.services.StepService
 import by.step.draw.ui.views.IOnRewardListener
 import by.step.draw.ui.views.IntroListener
@@ -191,6 +192,30 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             pair?.let { drawView.drawPicture(it) }
         })
 
+        viewModel.dialogDrawStepFinishedShowLiveData.observe(this, {
+            it?.let { showDrawStepFinishedDialog() }
+        })
+
+        viewModel.dialogFinalShowLiveData.observe(this, {
+            it?.let { showDialogFinal() }
+        })
+
+        viewModel.recreateScreenLiveData.observe(this, {
+            viewModelStore.clear()
+            recreate()
+        })
+
+        viewModel.bFinalRewardVisibilityLiveData.observe(this, { isAnimation: Boolean ->
+            val shake = AnimationUtils.loadAnimation(App.instance, R.anim.anim_b_final_reward)
+            mlParent.setTransition(R.id.transition_final_reward)
+            if (isAnimation) {
+                mlParent.transitionToEnd()
+            } else {
+                mlParent.progress = 1f
+            }
+            bFinalReward.startAnimation(shake)
+        })
+
         viewModel.checkActivityRecognitionLiveData.observe(this, {
             it?.let { checkPermissions() }
         })
@@ -228,6 +253,21 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             }
         })
 
+        viewModel.showNextLevelAlertDialogLiveData.observe(this, {
+            it?.let {
+                showAlertDialog(
+                    getString(R.string.title_next_level),
+                    getString(R.string.descr_next_level),
+                    positiveCallback = { dialog, which -> viewModel.onResetResultsClicked() },
+                    negativeCallback = null,
+                    neutralCallback = { dialog, which -> },
+                    positiveButtonText = R.string.play_again,
+                    negativeButtonText = null,
+                    neutralButtonText = R.string.cancel
+                )
+            }
+        })
+
         viewModel.showClickIntroLiveData.observe(this, {
             it?.let {
                 mlParent.setTransition(R.id.transition_to_click_intro)
@@ -256,8 +296,7 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
         })
 
         //  stepsProgressView.setOnLongClickListener(this)
-        //  showDrawStepFinishedDialog()
-        //  showDialogFinal()
+        bFinalReward.setOnClickListener(this)
         vBackgroundClickTutorial.setOnClickListener(this)
         drawView.setOnClickListener(this)
     }
@@ -327,6 +366,7 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.bFinalReward -> viewModel.onFinalRewardClicked()
             R.id.vBackgroundClickTutorial -> {
                 mlParent.setTransition(R.id.transition_hide_elements_from_intro)
                 mlParent.transitionToEnd()
@@ -343,6 +383,7 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             resIcon = R.drawable.ic_fire_work,
             cancelListener = object : InfoDialogButtonListener {
                 override fun onClicked() {
+                    viewModel.dialogDrawStepFinishedClosed()
                 }
             })
     }
@@ -357,11 +398,15 @@ class MainActivity : AppCompatActivity(), View.OnLongClickListener, View.OnClick
             R.drawable.ic_fire_work,
             object : InfoDialogButtonListener {
                 override fun onClicked() {
+                    viewModel.dialogFinalClosed()
                 }
             },
             null,
-            null
-        )
+            object : InfoDialogButtonListener {
+                override fun onClicked() {
+                    viewModel.onNextLevelClicked()
+                }
+            })
     }
 
     private fun showLimitStepInfoDialog(

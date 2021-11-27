@@ -56,6 +56,15 @@ class DataManagerLocal(private val context: Context) {
 
     fun isAfterIntroAction() = preferencesHelper.isAfterIntroAction()
 
+    fun setAnimationIntroDialogShown(isShown: Boolean) =
+        preferencesHelper.setAnimationIntroDialogShown(isShown)
+
+    fun isAnimationIntroDialogShown() = preferencesHelper.isAnimationIntroDialogShown()
+
+    fun setFinalDialogShown(isShown: Boolean) = preferencesHelper.setFinalDialogShown(isShown)
+
+    fun isFinalDialogShown() = preferencesHelper.isFinalDialogShown()
+
     fun setHideElementsIntroShown(isShown: Boolean) =
         preferencesHelper.setHideElementsIntroShown(isShown)
 

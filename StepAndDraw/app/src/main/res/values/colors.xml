@@ -22,6 +22,7 @@
     <!-- red -->
     <color name="red_f44">#F44336</color>
     <color name="red_ff0">#ff090d</color>
+    <color name="red_ed1">#ed1414</color>
 
     <!-- black -->
     <color name="black_99">#B2000000</color>
@@ -36,5 +37,8 @@
     <!-- orange -->
     <color name="orange_ff9">#FF9B42</color>
     <color name="orange_F57">#F57C00</color>
+
+    <!-- yellow -->
+    <color name="yellow_f1f">#f1fc10</color>
 
 </resources>

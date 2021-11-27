@@ -15,6 +15,9 @@
     <dimen name="steps_reward_velocity">0.7dp</dimen>
 
     <!-- drawing -->
+    <dimen name="progress_item_size">32dp</dimen>
+    <dimen name="progress_card_corner_radius">16dp</dimen>
+    <dimen name="progress_padding">6dp</dimen>
     <dimen name="init_item_radius">6dp</dimen>
     <dimen name="stroke_item_width">1dp</dimen>
     <dimen name="border_offset">2dp</dimen>

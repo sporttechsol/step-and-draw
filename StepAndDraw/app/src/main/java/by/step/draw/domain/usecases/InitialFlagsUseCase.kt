@@ -12,8 +12,21 @@ class InitialFlagsUseCase(private val initialFlagsRepository: InitialFlagsReposi
 
     fun isAfterIntroAction() = initialFlagsRepository.isAfterIntroAction()
 
+    fun setAnimationIntroDialogShown(isShown: Boolean) =
+        initialFlagsRepository.setAnimationIntroDialogShown(isShown)
+
+    fun isAnimationIntroDialogShown() = initialFlagsRepository.isAnimationIntroDialogShown()
+
+    fun setFinalDialogShown(isShown: Boolean) = initialFlagsRepository.setFinalDialogShown(isShown)
+
+    fun isFinalDialogShown() = initialFlagsRepository.isFinalDialogShown()
+
     fun setHideElementsIntroShown(isShown: Boolean) =
         initialFlagsRepository.setHideElementsIntroShown(isShown)
 
     fun isHideElementsIntroShown() = initialFlagsRepository.isHideElementsIntroShown()
+
+    fun resetFlags() {
+        initialFlagsRepository.setIntroShown(false)
+    }
 }

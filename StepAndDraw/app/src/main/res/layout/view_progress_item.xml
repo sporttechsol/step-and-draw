@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        app:cpb_background_progressbar_color="#F4F4F4"
+        app:cpb_background_progressbar_width="5dp"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="#29E615"
+        app:cpb_progressbar_width="4dp"
+        app:cpb_round_border="true" />
+
+</merge>

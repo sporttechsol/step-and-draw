@@ -1,5 +1,6 @@
 package by.step.draw.domain.models.drawing.item
 
+import by.step.draw.domain.models.drawing.item.steps.DrawingStepsAnimationData
 import by.step.draw.domain.models.drawing.item.steps.DrawingStepsData
 
 class DrawingItemData(
@@ -9,5 +10,6 @@ class DrawingItemData(
     val startDrawPoint: Pair<Float, Float>,
     val drawingRadius: Float,
     val paintData: PaintItemData,
-    val drawingSteps: DrawingStepsData
+    val drawingSteps: DrawingStepsData,
+    val drawingAnimatedSteps: DrawingStepsAnimationData? = null
 )

@@ -64,7 +64,7 @@ class StepServiceViewModel : BaseViewModel() {
     private fun subscribeOnSteps() {
         addDisposable(stepCounterUseCase.startCountSteps().subscribe())
         addDisposable(stepsSourceUseCase.subscribe().subscribe {
-            if (it.second >= drawData.maxDrawSteps) {
+            if (it.second >= drawData.maxAnimationSteps) {
                 textNotificationLiveData.value =
                     App.instance.getString(R.string.counted_steps, it.second.toString()) + " \n(" +
                             App.instance.getString(R.string.max_amount_steps_reached) + ")"

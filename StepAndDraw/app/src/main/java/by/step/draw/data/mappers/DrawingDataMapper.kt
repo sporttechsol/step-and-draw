@@ -1,11 +1,14 @@
 package by.step.draw.data.mappers
 
 import android.graphics.*
+import androidx.core.content.ContextCompat
 import by.step.draw.App
+import by.step.draw.R
 import by.step.draw.domain.models.drawing.BorderData
 import by.step.draw.domain.models.drawing.DrawingData
 import by.step.draw.domain.models.drawing.item.DrawingItemData
 import by.step.draw.domain.models.drawing.item.PaintItemData
+import by.step.draw.domain.models.drawing.item.steps.DrawingStepsAnimationData
 import by.step.draw.domain.models.drawing.item.steps.DrawingStepsData
 import com.caverock.androidsvg.SVG
 
@@ -13,9 +16,14 @@ import com.caverock.androidsvg.SVG
 class DrawingDataMapper {
 
     private val MAX_DRAWING_STEPS = 10000
+    private val MAX_ANIMATION_STEPS = 15000
 
     private val drawingItemDataMapper: DrawingItemDataMapper by lazy {
         DrawingItemDataMapper()
+    }
+
+    private val boundaryPointsMapper: BoundaryPointsMapper by lazy {
+        BoundaryPointsMapper()
     }
 
     fun transform(): DrawingData {
@@ -25,6 +33,7 @@ class DrawingDataMapper {
             1440,
             1920,
             drawingItems.last().drawingSteps.stepsTo,
+            findMaxAnimationSteps(drawingItems),
             drawingItems,
             getBorderData(drawingItems)
         )
@@ -166,12 +175,147 @@ class DrawingDataMapper {
             drawingItems.add(
                 getDrawingItem(
                     pathAndColor.first, pathAndColor.second,
-                    drawingSteps
+                    drawingSteps,
+                    getDrawingStepsAnimationData(index, pathAndColor.first)
                 )
             )
             drawingStepsCounter += drawingStepsDelta
         }
         return drawingItems
+    }
+
+    // TODO make this in xml (skip)
+    private fun getDrawingStepsAnimationData(index: Int, path: Path): DrawingStepsAnimationData? {
+        return when (index) {
+            54 ->
+                DrawingStepsAnimationData(
+                    MAX_DRAWING_STEPS,
+                    10330,
+                    ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                    ContextCompat.getColor(App.instance, R.color.red_ed1),
+                    generateAnimationDuration(),
+                    boundaryPointsMapper.transform(PathMeasure(path, false))
+                )
+            57 -> DrawingStepsAnimationData(
+                10330,
+                10660,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            63 -> DrawingStepsAnimationData(
+                10660,
+                10990,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            59 -> DrawingStepsAnimationData(
+                10990,
+                11320,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            60 -> DrawingStepsAnimationData(
+                11320,
+                11650,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            61 -> DrawingStepsAnimationData(
+                11650,
+                11980,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            66 -> DrawingStepsAnimationData(
+                11980,
+                12310,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            71 -> DrawingStepsAnimationData(
+                12310,
+                12640,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            70 -> DrawingStepsAnimationData(
+                12640,
+                12970,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            72 -> DrawingStepsAnimationData(
+                12970,
+                13300,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            74 -> DrawingStepsAnimationData(
+                13300,
+                13630,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            77 -> DrawingStepsAnimationData(
+                13630,
+                13960,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            78 -> DrawingStepsAnimationData(
+                13960,
+                14290,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            53 -> DrawingStepsAnimationData(
+                14290,
+                14620,
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            82 -> DrawingStepsAnimationData(
+                14620,
+                MAX_ANIMATION_STEPS,
+                ContextCompat.getColor(App.instance, R.color.yellow_f1f),
+                ContextCompat.getColor(App.instance, R.color.red_ed1),
+                generateAnimationDuration(),
+                boundaryPointsMapper.transform(PathMeasure(path, false))
+            )
+            else -> null
+        }
+    }
+
+    private fun generateAnimationDuration(): Int {
+        val max = 2500
+        val min = 1500
+        return ((Math.random() * (max - min)) + min).toInt()
     }
 
     private fun getPathsAndColors(svg: SVG): ArrayList<Pair<Path, Int>> {
@@ -215,7 +359,8 @@ class DrawingDataMapper {
     private fun getDrawingItem(
         path: Path,
         fillColor: Int,
-        stepsDrawing: Pair<Int, Int>
+        stepsDrawing: Pair<Int, Int>,
+        drawingStepsAnimationData: DrawingStepsAnimationData? = null
     ): DrawingItemData {
         val rectInitial = fetchRectOfDrawingItem(path)
         val width = rectInitial.width()
@@ -248,7 +393,8 @@ class DrawingDataMapper {
             startDrawPointLocalCords,
             Math.ceil(drawingRadius.toDouble()).toFloat(),
             PaintItemData(path, fillColor),
-            DrawingStepsData(stepsDrawing.first, stepsDrawing.second)
+            DrawingStepsData(stepsDrawing.first, stepsDrawing.second),
+            drawingStepsAnimationData
         )
     }
 
@@ -329,3 +475,12 @@ class DrawingDataMapper {
         return rectF
     }
 }
+
+private fun findMaxAnimationSteps(items: ArrayList<DrawingItemData>) =
+    items.maxOf {
+        if (it.drawingAnimatedSteps != null) {
+            return@maxOf it.drawingAnimatedSteps.stepsTo
+        } else {
+            return@maxOf it.drawingSteps.stepsTo
+        }
+    }

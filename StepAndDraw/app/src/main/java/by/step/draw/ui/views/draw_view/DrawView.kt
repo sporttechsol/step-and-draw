@@ -12,6 +12,7 @@ import androidx.core.animation.addListener
 import by.step.draw.domain.models.drawing.BorderData
 import by.step.draw.domain.models.drawing.DrawingData
 import by.step.draw.domain.models.drawing.item.DrawingItemData
+import by.step.draw.domain.models.drawing.item.steps.BoundaryPoints
 import by.step.draw.ui.views.draw_view.image_item.DrawingBorderItemView
 import by.step.draw.ui.views.draw_view.image_item.DrawingItemView
 import by.step.draw.utils.AnalyticsSender
@@ -35,6 +36,7 @@ class DrawView @JvmOverloads constructor(
     private val itemsImage = arrayListOf<DrawingItemView>()
     private val itemsBorder = arrayListOf<DrawingBorderItemView>()
 
+    private lateinit var progressView: ProgressItemView
     private val animationBasePoints = arrayListOf<Float>()
     private var isAnimationPlaying = false
     private var isViewHidden = false
@@ -42,6 +44,10 @@ class DrawView @JvmOverloads constructor(
     private var progressAnimator: ValueAnimator? = null
 
     private lateinit var drawingData: DrawingData
+
+    init {
+        createProgressView()
+    }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -113,6 +119,11 @@ class DrawView @JvmOverloads constructor(
         for (item in drawingData.items) {
             if (item.drawingSteps.stepsTo in (lastShownSteps + 1) until animatedToSteps) {
                 animationBasePoints.add(item.drawingSteps.stepsTo.toFloat())
+            } else if (item is DrawingItemData && item.drawingAnimatedSteps != null
+                && item.drawingAnimatedSteps.stepsTo > lastShownSteps &&
+                item.drawingAnimatedSteps.stepsTo < animatedToSteps
+            ) {
+                animationBasePoints.add(item.drawingAnimatedSteps.stepsTo.toFloat())
             }
         }
 
@@ -121,6 +132,7 @@ class DrawView @JvmOverloads constructor(
         startAnimation()
     }
 
+    // TODO recalculate animation length according to the maxDrawing steps and maxAnimationSteps
     private fun startAnimation() {
         val fromSteps = animationBasePoints[0]
         val toSteps = animationBasePoints[1]
@@ -128,7 +140,7 @@ class DrawView @JvmOverloads constructor(
         progressAnimator = ObjectAnimator.ofFloat(fromSteps, toSteps)
         progressAnimator?.interpolator = LinearInterpolator()
         progressAnimator?.duration =
-            ((toSteps - fromSteps) / drawingData.maxDrawSteps.toFloat() * LENGTH_OF_PICTURE_ANIM.toFloat()).toLong()
+            ((toSteps - fromSteps) / drawingData.maxAnimationSteps.toFloat() * LENGTH_OF_PICTURE_ANIM.toFloat()).toLong()
         progressAnimator?.addUpdateListener {
             drawValue(it.animatedValue as Float, false)
         }
@@ -138,8 +150,7 @@ class DrawView @JvmOverloads constructor(
             animationBasePoints.removeAt(0)
             if (animationBasePoints.size <= 1) {
                 destroyAnimator()
-                AnalyticsSender.getInstance()
-                    .drawingIsFinished(Pair(lastShownSteps, animatedToSteps))
+                AnalyticsSender.getInstance().drawingIsFinished(Pair(lastShownSteps, animatedToSteps))
                 listener?.onDrawFinished()
             } else {
                 startAnimation()
@@ -156,8 +167,20 @@ class DrawView @JvmOverloads constructor(
     private fun drawValue(steps: Float, isInit: Boolean) {
         listener?.onStepsUpdate(steps.toInt())
 
+        var progressData: Pair<Float, BoundaryPoints>? = null
+
         itemsImage.forEach { itemDrawing: DrawingItemView ->
-            itemDrawing.update(steps)
+            val curProgressData = itemDrawing.update(steps)
+            if (progressData == null) {
+                progressData = curProgressData
+            }
+        }
+
+        progressData?.let {
+            progressView.setData(it.first)
+            progressView.setPosition(it.second)
+        } ?: run {
+            progressView.visibility = GONE
         }
 
         itemsBorder.forEach {
@@ -170,6 +193,7 @@ class DrawView @JvmOverloads constructor(
 
         removeAllViews()
         addImageItems(drawingData)
+        addView(progressView)
     }
 
     private fun addImageItems(drawingData: DrawingData) {
@@ -227,6 +251,11 @@ class DrawView @JvmOverloads constructor(
         progressAnimator?.end()
     }
 
+    private fun createProgressView() {
+        progressView = ProgressItemView(context, width, height)
+        progressView.visibility = GONE
+    }
+
     private fun updateItems() {
         itemsImage.forEach {
             it.recalculateSizes(drawingData.width, drawingData.height, curWidth, curHeight)
@@ -234,6 +263,7 @@ class DrawView @JvmOverloads constructor(
         itemsBorder.forEach {
             it.recalculateSizes(drawingData.width, drawingData.height, curWidth, curHeight)
         }
+        progressView.calculatePosition(curWidth, curHeight)
     }
 }
 

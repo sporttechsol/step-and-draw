@@ -27,6 +27,14 @@ class AnalyticsSender(private val userId: String) {
         firebaseAnalytics.logEvent(EVENT_SERVICE_STOPPED, null)
     }
 
+    fun firstLimitReached() {
+        firebaseAnalytics.logEvent(EVENT_FIRST_LIMIT_REACHED, null)
+    }
+
+    fun secondLimitReached() {
+        firebaseAnalytics.logEvent(EVENT_SECOND_LIMIT_REACHED, null)
+    }
+
     fun takeReward(steps: Int) {
         val bundle = Bundle()
         bundle.putString(PARAM_STEPS, steps.toString())
@@ -53,6 +61,26 @@ class AnalyticsSender(private val userId: String) {
         bundle.putString(PARAM_TO_STEPS, interval.second.toString())
         bundle.putString(PARAM_USER_ID, userId)
         firebaseAnalytics.logEvent(EVENT_DRAWING_IS_FINISHED, bundle)
+    }
+
+    fun playAgain() {
+        val bundle = Bundle()
+        bundle.putString(PARAM_USER_ID, userId)
+        firebaseAnalytics.logEvent(EVENT_PLAY_AGAIN, bundle)
+    }
+
+    fun nextLevel() {
+        val bundle = Bundle()
+        bundle.putString(PARAM_USER_ID, userId)
+        firebaseAnalytics.logEvent(EVENT_NEXT_LEVEL, bundle)
+    }
+
+    fun secondLimitDialogClosed() {
+        firebaseAnalytics.logEvent(EVENT_SECOND_LIMIT_DIALOG_CLOSED, null)
+    }
+
+    fun rewardButtonClicked() {
+        firebaseAnalytics.logEvent(EVENT_REWARD_BUTTON_CLICKED, null)
     }
 
     fun hideUIClicked() {
@@ -113,8 +141,13 @@ class AnalyticsSender(private val userId: String) {
         private const val EVENT_SERVICE_STARTED = "step_service_started"
         private const val EVENT_SERVICE_RESTARTED = "step_service_restarted"
         private const val EVENT_SERVICE_STOPPED = "step_service_stopped"
+        private const val EVENT_FIRST_LIMIT_REACHED = "first_limit_reached"
+        private const val EVENT_SECOND_LIMIT_REACHED = "second_limit_reached"
         private const val EVENT_TAKE_REWARD = "take_reward"
         private const val EVENT_DRAWING_IS_FINISHED = "drawing_is_finished"
+        private const val EVENT_PLAY_AGAIN = "play_again"
+        private const val EVENT_SECOND_LIMIT_DIALOG_CLOSED = "second_limit_dialog_closed"
+        private const val EVENT_REWARD_BUTTON_CLICKED = "reward_clicked"
         private const val EVENT_HIDE_UI_CLICKED = "hide_ui_clicked"
         private const val EVENT_PERMISSION_BLOCKED = "permission_blocked"
         private const val EVENT_PERMISSION_GRANTED = "permission_granted"
@@ -122,6 +155,7 @@ class AnalyticsSender(private val userId: String) {
         private const val EVENT_REWARD_IS_FINISHED = "reward_is_finished"
         private const val EVENT_DRAWING_STARTED = "drawing_started"
         private const val EVENT_SERVICE_IS_RUNNING = "service_is_running"
+        private const val EVENT_NEXT_LEVEL = "next_level_clicked"
 
         // params
         private const val PARAM_STEPS = "steps"

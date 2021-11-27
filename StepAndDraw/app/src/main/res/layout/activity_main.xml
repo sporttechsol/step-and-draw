@@ -45,13 +45,13 @@
         android:id="@+id/cvProgressContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="4dp"
         android:elevation="@dimen/progress_elevation"
         android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/stepCounterController"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/bEnd"
         app:layout_constraintStart_toEndOf="@id/stepCounterController"
         app:layout_constraintTop_toTopOf="@id/stepCounterController">
 
@@ -84,6 +84,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone" />
+
+    <View
+        android:id="@+id/vRightMargin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bFinalReward"
+        style="@style/BaseMaterialButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="4dp"
+        android:stateListAnimator="@null"
+        android:visibility="gone"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_reward"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="44dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/stepCounterController" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="bFinalReward,vRightMargin" />
 
     <View
         android:id="@+id/vBackgroundClickTutorial"

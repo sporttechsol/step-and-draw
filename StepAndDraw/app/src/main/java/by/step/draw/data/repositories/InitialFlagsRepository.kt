@@ -12,6 +12,15 @@ class InitialFlagsRepository(private val dataManagerLocal: DataManagerLocal) {
 
     fun isAfterIntroAction() = dataManagerLocal.isAfterIntroAction()
 
+    fun setAnimationIntroDialogShown(isShown: Boolean) =
+        dataManagerLocal.setAnimationIntroDialogShown(isShown)
+
+    fun isAnimationIntroDialogShown() = dataManagerLocal.isAnimationIntroDialogShown()
+
+    fun setFinalDialogShown(isShown: Boolean) = dataManagerLocal.setFinalDialogShown(isShown)
+
+    fun isFinalDialogShown() = dataManagerLocal.isFinalDialogShown()
+
     fun setHideElementsIntroShown(isShown: Boolean) =
         dataManagerLocal.setHideElementsIntroShown(isShown)
 

@@ -1,6 +1,7 @@
 package by.step.draw.ui.views
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ class StepsProgressView @JvmOverloads constructor(
     private lateinit var drawingData: DrawingData
 
     private val colorGreenProgress = ContextCompat.getColor(context, R.color.green_5BC)
+    private val colorRedProgress = ContextCompat.getColor(context, R.color.red_f44)
     private val colorTextBackgroundGreen = ContextCompat.getColor(context, R.color.green_84C)
     private val colorGreyProgressBackground = ContextCompat.getColor(context, R.color.grey_ddd)
     private var curMaxLimit = 0
@@ -31,10 +33,11 @@ class StepsProgressView @JvmOverloads constructor(
 
     fun updateMainProgress(steps: Int) {
         curSteps = steps
-        curMaxLimit = drawingData.maxDrawSteps
+        curMaxLimit =
+            if (steps < drawingData.maxDrawSteps) drawingData.maxDrawSteps else drawingData.maxAnimationSteps
         tvSteps.text = steps.toString()
 
-        if (steps <= drawingData.maxDrawSteps) {
+        if (steps < drawingData.maxDrawSteps) {
             stepsProgress.setMaxValue(drawingData.maxDrawSteps)
             stepsProgressBkgr.setMaxValue(drawingData.maxDrawSteps)
 
@@ -44,16 +47,37 @@ class StepsProgressView @JvmOverloads constructor(
             stepsProgressBkgr.setBackgroundDrawableColor(colorGreyProgressBackground)
 
             stepsProgress.setProgress(steps, false)
+        } else {
+            val maxSteps = drawingData.maxAnimationSteps - drawingData.maxDrawSteps
+            stepsProgress.setMaxValue(maxSteps)
+            stepsProgressBkgr.setMaxValue(maxSteps)
+
+            setBackgroundColor(colorRedProgress)
+            stepsProgress.setProgressDrawableColor(colorRedProgress)
+            stepsProgress.setBackgroundTextColor(Color.WHITE)
+            stepsProgressBkgr.setBackgroundDrawableColor(colorGreenProgress)
+
+            val progressSteps = steps - drawingData.maxDrawSteps
+            stepsProgress.setProgress(progressSteps, false)
         }
         updateBackgroundProgress(curBackgroundSteps)
     }
 
     fun updateBackgroundProgress(steps: Int) {
         curBackgroundSteps = steps
-        stepsProgressBkgr.setProgress(steps, false)
+        val backgroundSteps = calculateStepsForForegroundProgress()
+        stepsProgressBkgr.setProgress(backgroundSteps, false)
     }
 
     fun setData(drawingData: DrawingData) {
         this.drawingData = drawingData
+    }
+
+    private fun calculateStepsForForegroundProgress(): Int {
+        return if (curMaxLimit == drawingData.maxDrawSteps) {
+            curBackgroundSteps
+        } else {
+            curBackgroundSteps - drawingData.maxDrawSteps
+        }
     }
 }
