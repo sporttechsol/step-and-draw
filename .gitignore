@@ -1,0 +1,10 @@
+*.iml
+StepAndDraw/.gradle
+StepAndDraw/local.properties
+StepAndDraw/.idea/workspace.xml
+StepAndDraw/.idea/libraries
+StepAndDraw/.DS_Store
+StepAndDraw/build
+StepAndDraw/captures
+StepAndDraw/.idea
+StepAndDraw/.log

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mlParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/scene_main_activity"
+    tools:context=".ui.activities.main.MainActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:theme="@style/ContentLoadingProgress"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <by.step.draw.ui.views.StepCounterControllerView
+        android:id="@+id/stepCounterController"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:elevation="1dp"
+        android:touchscreenBlocksFocus="true"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProgressContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="@dimen/progress_elevation"
+        android:visibility="gone"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/stepCounterController"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/stepCounterController"
+        app:layout_constraintTop_toTopOf="@id/stepCounterController">
+
+        <by.step.draw.ui.views.StepsProgressView
+            android:id="@+id/stepsProgressView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <by.step.draw.ui.views.draw_view.DrawView
+        android:id="@+id/drawView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <by.step.draw.ui.views.RewardView
+        android:id="@+id/rewardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/reward_view_start_elevation"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <View
+        android:id="@+id/vBackgroundClickTutorial"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black_99"
+        android:elevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivClick"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:elevation="12dp"
+        android:src="@drawable/ic_click"
+        app:layout_constraintBottom_toTopOf="@id/tvClick"
+        app:layout_constraintEnd_toEndOf="@id/vBackgroundClickTutorial"
+        app:layout_constraintStart_toStartOf="@id/vBackgroundClickTutorial"
+        app:layout_constraintTop_toTopOf="@id/vBackgroundClickTutorial"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tvClick"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/click_to_show"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivClick"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupClickToShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tvClick,ivClick,vBackgroundClickTutorial" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

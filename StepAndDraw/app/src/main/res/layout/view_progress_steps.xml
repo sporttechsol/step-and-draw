@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clProgressContainer"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    tools:background="@color/green_5BC"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/ivSteps"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_step"
+        app:layout_constraintBottom_toTopOf="@id/tvSteps"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSteps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="0"
+        android:textColor="@android:color/white"
+        app:autoSizeMaxTextSize="30dp"
+        app:autoSizeMinTextSize="4dp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/stepsProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivSteps"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="100000" />
+
+    <by.step.draw.ui.views.roundedprogressbar.RoundedProgressBar
+        android:id="@+id/stepsProgressBkgr"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivSteps"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rpbAnimationLength="0"
+        app:rpbBackgroundColor="@color/grey_ddd"
+        app:rpbCornerRadiusBottomLeft="0dp"
+        app:rpbCornerRadiusBottomRight="8dp"
+        app:rpbCornerRadiusTopLeft="0dp"
+        app:rpbCornerRadiusTopRight="8dp"
+        app:rpbProgressColor="@color/blue_219"
+        app:rpbShowProgressText="false" />
+
+    <by.step.draw.ui.views.roundedprogressbar.RoundedProgressBar
+        android:id="@+id/stepsProgress"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivSteps"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rpbAnimationLength="0"
+        app:rpbBackgroundColor="@android:color/transparent"
+        tools:rpbBackgroundTextColor="@color/green_84C"
+        app:rpbCornerRadiusBottomLeft="0dp"
+        app:rpbCornerRadiusBottomRight="8dp"
+        app:rpbCornerRadiusTopLeft="0dp"
+        app:rpbCornerRadiusTopRight="8dp"
+        tools:rpbProgressColor="@color/green_5BC"
+        app:rpbProgressTextColor="@android:color/white"
+        app:rpbTextSize="20dp" />
+
+</merge>

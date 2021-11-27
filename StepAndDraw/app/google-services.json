@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "414100975946",
+    "project_id": "stepanddraw-cdd14",
+    "storage_bucket": "stepanddraw-cdd14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414100975946:android:2043a3afbd4f6d695b91b3",
+        "android_client_info": {
+          "package_name": "by.step.draw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414100975946-kco9r8p04qf38geeb8iiajghu0gfa9k7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "by.step.draw",
+            "certificate_hash": "b879bf69769febaad286f5916df2aad04a2db3ea"
+          }
+        },
+        {
+          "client_id": "414100975946-trm7gqfl73nm8e03cop2pd4sgqj085p9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO64hKFckAwfVtPGUwaeq7xZdAVSw-B88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414100975946-trm7gqfl73nm8e03cop2pd4sgqj085p9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

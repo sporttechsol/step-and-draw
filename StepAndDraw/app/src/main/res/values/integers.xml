@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="anim_fab_step_counter_control_duration">120</integer>
+    <integer name="rpb_default_animation_duration">@android:integer/config_shortAnimTime</integer>
+    <integer name="click_intro_anim_duration">300</integer>
+
+    <!-- reward animation -->
+    <integer name="reward_open_close_duration">700</integer>
+    <integer name="reward_second_step_duration">200</integer>
+    <integer name="reward_take_it_anim">2000</integer>
+
+    <!-- drawing item -->
+    <integer name="drawing_item_alpha_duration">1500</integer>
+    <integer name="drawing_border_item_alpha_duration">700</integer>
+
+</resources>

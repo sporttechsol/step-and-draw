@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="rpb_default_text_padding">8dp</dimen>
+    <dimen name="rpb_default_text_size">16sp</dimen>
+
+    <!--Default corner radius is 0. From there the user can add rounding to any desired corners-->
+    <dimen name="rpb_default_corner_radius">0dp</dimen>
+
+    <dimen name="reward_view_start_elevation">20dp</dimen>
+    <dimen name="reward_view_end_elevation">2dp</dimen>
+    <dimen name="progress_elevation">4dp</dimen>
+    <dimen name="steps_reward_padding">4dp</dimen>
+    <dimen name="steps_reward_velocity">0.7dp</dimen>
+
+    <!-- drawing -->
+    <dimen name="init_item_radius">6dp</dimen>
+    <dimen name="stroke_item_width">1dp</dimen>
+    <dimen name="border_offset">2dp</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="loading">Загрузка</string>
+    <string name="counted_steps">%1$s Шагов</string>
+
+    <!-- No step detector dialog -->
+    <string name="alert_no_detector_title">Приносим извинения</string>
+    <string name="alert_no_detector_descr">Приложение не поддерживается данным устройством.</string>
+
+    <string name="permission_required_title">Необходимо разрешение</string>
+    <string name="permission_required_descr">Пожалуйста предоставьте разрешение на чтение физической активности. Для подсчета шагов приложению необходимо разрешение.</string>
+    <string name="permission_blocked_descr">Для подсчета шагов приложению необходимо разрешение на чтение физической активности. Пожалуйста, нажмите "OK", перейдите в настройки и предоставьте приложению доступ к чтению физической активности.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отменить</string>
+
+    <!-- reward -->
+    <string name="steps">Шагов</string>
+    <string name="take_it">Забрать!</string>
+
+    <string name="max_amount_steps_reached">Достигнуто максимальное количество шагов</string>
+
+    <string name="click_to_show">Нажмите на изображение, чтобы посмотреть его</string>
+    <string name="close">Закрыть</string>
+
+</resources>

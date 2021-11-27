@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mlRewardParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/scene_reward"
+    tools:parentTag="androidx.constraintlayout.motion.widget.MotionLayout">
+
+    <by.step.draw.ui.views.RayView
+        android:id="@+id/rayView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/green_e64"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/viewKonfetti"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vBottomStepsLine"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toTopOf="@id/cvProgress" />
+
+    <by.step.draw.ui.views.StepsLineView
+        android:id="@+id/stepsLineView"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintBottom_toTopOf="@id/vBottomStepsLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProgress"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        app:cardCornerRadius="130dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:scaleX="1"
+        tools:scaleY="1"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/flProgressContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/cpbBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                app:cpb_background_progressbar_color="@android:color/transparent"
+                app:cpb_progress="75"
+                app:cpb_progress_max="100"
+                app:cpb_progressbar_color="@color/grey_ddd"
+                app:cpb_progressbar_width="40dp"
+                app:cpb_round_border="true"
+                app:cpb_start_angle="-135" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/rewardProgress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                app:cpb_background_progressbar_color="@android:color/transparent"
+                app:cpb_progress="75"
+                app:cpb_progress_max="100"
+                app:cpb_progressbar_color="@color/blue_219"
+                app:cpb_progressbar_width="24dp"
+                app:cpb_round_border="true"
+                app:cpb_start_angle="-135" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRewardSteps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="64dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/blue_219"
+                android:textSize="34dp"
+                app:layout_constraintBottom_toTopOf="@id/tvStepsTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="+37550" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStepsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:text="@string/steps"
+                android:textColor="@color/blue_219"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRewardSteps"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bTakeIt"
+        style="@style/BaseMaterialButton"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/take_it"
+        android:textColor="@color/color_b_take_it"
+        android:textSize="23dp"
+        app:backgroundTint="@color/red_ff0"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

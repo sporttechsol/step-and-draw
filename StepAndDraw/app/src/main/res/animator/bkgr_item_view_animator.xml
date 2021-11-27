@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/drawing_item_alpha_duration"
+    android:repeatCount="infinite"
+    android:valueFrom="0"
+    android:valueTo="80"
+    android:repeatMode="reverse"
+    android:valueType="intType" />
